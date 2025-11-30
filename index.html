@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Planilhas - Fácil e Seguro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="login-screen hidden">
+        <div class="login-container">
+            <div class="login-card">
+                <h1>📊 Sistema de Gestão de Planilhas</h1>
+                <p class="login-subtitle">Criação e manutenção de planilhas sem complicação</p>
+                <div class="login-features">
+                    <div class="feature-item">✅ Validação automática de dados</div>
+                    <div class="feature-item">✅ Templates prontos para usar</div>
+                    <div class="feature-item">✅ Compartilhamento com controle de permissões</div>
+                    <div class="feature-item">✅ Sincronização na nuvem</div>
+                </div>
+                <button class="btn btn-google" onclick="handleLogin()">
+                    <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        <path fill="none" d="M0 0h48v48H0z"/>
+                    </svg>
+                    Entrar com Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="main-app">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>📊 Sistema de Gestão de Planilhas</h1>
+                    <p class="subtitle">Criação e manutenção de planilhas sem complicação</p>
+                </div>
+                <div class="user-menu" id="user-menu">
+                    <img id="user-photo" class="user-photo" src="" alt="User">
+                    <div class="user-info">
+                        <span id="user-name" class="user-name"></span>
+                        <span id="user-email" class="user-email"></span>
+                    </div>
+                    <button class="btn btn-small btn-logout" onclick="handleLogout()">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="create">Nova Planilha</button>
+            <button class="tab-btn" data-tab="templates">Templates</button>
+            <button class="tab-btn" data-tab="saved">Minhas Planilhas</button>
+            <button class="tab-btn" data-tab="import">Importar Excel</button>
+        </div>
+
+        <!-- Tab: Nova Planilha -->
+        <div class="tab-content active" id="create">
+            <div class="form-section">
+                <h2>Criar Nova Planilha</h2>
+
+                <div class="form-group">
+                    <label for="spreadsheet-name">Nome da Planilha:</label>
+                    <input type="text" id="spreadsheet-name" placeholder="Ex: Controle de Vendas 2024">
+                </div>
+
+                <div class="form-group">
+                    <label for="spreadsheet-description">Descrição (opcional):</label>
+                    <textarea id="spreadsheet-description" rows="2" placeholder="Descreva o propósito desta planilha..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="num-columns">Número de Colunas:</label>
+                        <input type="number" id="num-columns" value="5" min="1" max="26">
+                    </div>
+                    <div class="form-group">
+                        <label for="num-rows">Número de Linhas:</label>
+                        <input type="number" id="num-rows" value="10" min="1" max="1000">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="createSpreadsheet()">Criar Planilha</button>
+            </div>
+        </div>
+
+        <!-- Tab: Templates -->
+        <div class="tab-content" id="templates">
+            <h2>Templates Predefinidos</h2>
+            <p class="help-text">Comece rapidamente com nossos templates prontos!</p>
+
+            <div class="templates-grid">
+                <div class="template-card" onclick="loadTemplate('vendas')">
+                    <h3>💰 Controle de Vendas</h3>
+                    <p>Acompanhe suas vendas mensais com totalizadores automáticos</p>
+                    <span class="badge">Popular</span>
+                </div>
+
+                <div class="template-card" onclick="loadTemplate('orcamento')">
+                    <h3>💵 Orçamento Pessoal</h3>
+                    <p>Gerencie receitas e despesas com cálculos automáticos</p>
+                </div>
+
+                <div class="template-card" onclick="loadTemplate('estoque')">
+                    <h3>📦 Controle de Estoque</h3>
+                    <p>Monitore entradas, saídas e saldo de produtos</p>
+                </div>
+
+                <div class="template-card" onclick="loadTemplate('funcionarios')">
+                    <h3>👥 Cadastro de Funcionários</h3>
+                    <p>Registre dados de colaboradores com validações</p>
+                </div>
+
+                <div class="template-card" onclick="loadTemplate('tarefas')">
+                    <h3>✅ Lista de Tarefas</h3>
+                    <p>Organize projetos e acompanhe o progresso</p>
+                </div>
+
+                <div class="template-card" onclick="loadTemplate('clientes')">
+                    <h3>📇 Base de Clientes</h3>
+                    <p>Gerencie contatos e informações de clientes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Minhas Planilhas -->
+        <div class="tab-content" id="saved">
+            <h2>Minhas Planilhas Salvas</h2>
+            <div id="saved-spreadsheets-list"></div>
+        </div>
+
+        <!-- Tab: Importar -->
+        <div class="tab-content" id="import">
+            <h2>Importar Planilha Excel</h2>
+            <p class="help-text">Importe arquivos .xlsx ou .csv existentes</p>
+
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none">
+                <p>Arraste um arquivo Excel aqui ou clique para selecionar</p>
+                <button class="btn btn-secondary" onclick="document.getElementById('file-input').click()">Escolher Arquivo</button>
+            </div>
+        </div>
+
+        <!-- Área de Edição de Planilha -->
+        <div id="spreadsheet-editor" class="hidden">
+            <div class="editor-header">
+                <div>
+                    <h2 id="current-spreadsheet-name"></h2>
+                    <p id="current-spreadsheet-description" class="description-text"></p>
+                </div>
+                <div class="editor-actions">
+                    <button class="btn btn-small" onclick="addRow()">+ Linha</button>
+                    <button class="btn btn-small" onclick="addColumn()">+ Coluna</button>
+                    <button class="btn btn-small" style="background: #ff6b6b; color: white;" onclick="showShareModal()">🔗 Compartilhar</button>
+                    <button class="btn btn-small btn-secondary" onclick="showVersionHistory()">Histórico</button>
+                    <button class="btn btn-small btn-primary" onclick="saveSpreadsheet()">💾 Salvar</button>
+                    <button class="btn btn-small btn-success" onclick="exportToExcel()">⬇ Exportar Excel</button>
+                    <button class="btn btn-small" onclick="closeEditor()">✕ Fechar</button>
+                </div>
+            </div>
+
+            <!-- Configuração de Colunas -->
+            <div class="column-config">
+                <h3>Configurar Colunas</h3>
+                <div id="column-settings"></div>
+            </div>
+
+            <!-- Tabela -->
+            <div class="table-container">
+                <table id="data-table"></table>
+            </div>
+
+            <!-- Painel de Ajuda -->
+            <div class="help-panel">
+                <h3>💡 Dicas e Ajuda</h3>
+                <div id="help-messages"></div>
+                <div class="formula-help">
+                    <h4>Fórmulas Disponíveis:</h4>
+                    <ul>
+                        <li><strong>=SOMA(A1:A10)</strong> - Soma valores de um intervalo</li>
+                        <li><strong>=MEDIA(A1:A10)</strong> - Calcula a média</li>
+                        <li><strong>=MAXIMO(A1:A10)</strong> - Retorna o maior valor</li>
+                        <li><strong>=MINIMO(A1:A10)</strong> - Retorna o menor valor</li>
+                        <li><strong>=CONTAR(A1:A10)</strong> - Conta células não vazias</li>
+                        <li><strong>=SE(A1>100, "Alto", "Baixo")</strong> - Condição lógica</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Histórico de Versões -->
+        <div id="version-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Histórico de Versões</h2>
+                    <button class="close-btn" onclick="closeVersionModal()">✕</button>
+                </div>
+                <div class="modal-body" id="version-list"></div>
+            </div>
+        </div>
+
+        <!-- Modal de Compartilhamento -->
+        <div id="share-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🔗 Compartilhar Planilha</h2>
+                    <button class="close-btn" onclick="closeShareModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="share-section">
+                        <h3>Adicionar Colaborador</h3>
+                        <div class="share-form">
+                            <input type="email" id="share-email" placeholder="email@exemplo.com" class="share-input">
+                            <select id="share-permission" class="share-select">
+                                <option value="viewer">Visualizador</option>
+                                <option value="editor">Editor</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="handleShareSpreadsheet()">Compartilhar</button>
+                        </div>
+                        <p class="help-text">
+                            <strong>Visualizador:</strong> Pode apenas ver a planilha<br>
+                            <strong>Editor:</strong> Pode ver e editar a planilha
+                        </p>
+                    </div>
+
+                    <div class="share-section">
+                        <h3>Colaboradores Atuais</h3>
+                        <div id="collaborators-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- XLSX Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="firebase-init.js"></script>
+
+    <!-- App Script -->
+    <script src="app-main.js"></script>
+</body>
+</html>
